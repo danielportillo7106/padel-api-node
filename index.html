@@ -1,22 +1,101 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Padel App</title>
+  <meta charset="UTF-8">
+  <title>Padel App</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #38bdf8;
+    }
+
+    button {
+      background: #2563eb;
+      border: none;
+      padding: 12px 20px;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .card {
+      background: #1e293b;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 320px;
+      text-align: left;
+    }
+
+    pre {
+      text-align: left;
+      background: #020617;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>🎾 API de Pádel</h1>
-<button onclick="cargar()">Ver partidos</button>
+<h1>🎾 Gestor de Partidos de Pádel</h1>
 
-<pre id="resultado"></pre>
+<button onclick="cargarPartidos()">Ver partidos</button>
+<button onclick="crearDemo()">Crear partido demo</button>
+
+<div id="lista"></div>
 
 <script>
-async function cargar() {
-  const res = await fetch("http://localhost:3000/partidos");
+const API = "http://localhost:3000"; 
+// luego cambiaremos a Render
+
+async function cargarPartidos() {
+  const res = await fetch(API + "/partidos");
   const data = await res.json();
-  document.getElementById("resultado").textContent =
-    JSON.stringify(data, null, 2);
+
+  const contenedor = document.getElementById("lista");
+  contenedor.innerHTML = "";
+
+  data.forEach(p => {
+    contenedor.innerHTML += `
+      <div class="card">
+        <b>Cancha:</b> ${p.cancha}<br>
+        <b>Equipo A:</b> ${p.equipoA.join(", ")}<br>
+        <b>Equipo B:</b> ${p.equipoB.join(", ")}<br>
+        <b>Fecha:</b> ${p.fecha}
+      </div>
+    `;
+  });
+}
+
+async function crearDemo() {
+  await fetch(API + "/partidos", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      equipoA: ["Carlos", "Luis"],
+      equipoB: ["Ana", "Sofia"],
+      cancha: 1,
+      fecha: "2026-02-13"
+    })
+  });
+
+  cargarPartidos();
 }
 </script>
 
