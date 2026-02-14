@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Organizador de Pádel</title>
+  <style>
+    body{
+      font-family: Arial;
+      background:#0f172a;
+      color:white;
+      text-align:center;
+      padding:40px;
+    }
+    button{
+      padding:12px 20px;
+      margin:10px;
+      border:none;
+      border-radius:10px;
+      background:#2563eb;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+    }
+    .card{
+      background:#111827;
+      padding:20px;
+      border-radius:20px;
+      max-width:500px;
+      margin:auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>🎾 Organizador de Pádel</h1>
+  <p>Proyecto Node + API</p>
+
+  <button onclick="generar()">Generar equipos</button>
+
+  <h3 id="resultado"></h3>
+</div>
+
+<script>
+function generar(){
+  const jugadores = ["Ana","Luis","Carlos","Sofía"];
+  jugadores.sort(()=>Math.random()-0.5);
+
+  const equipo1 = jugadores.slice(0,2);
+  const equipo2 = jugadores.slice(2,4);
+
+  document.getElementById("resultado").innerHTML =
+    "Equipo A: " + equipo1.join(", ") + "<br>" +
+    "Equipo B: " + equipo2.join(", ");
+}
+</script>
+
+</body>
+</html>
